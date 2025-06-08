@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: load-balancer
+  namespace: development
+spec:
+  selector:
+    app: quote-service  # To which pods should the load-balancer forward traffic
+  ports:
+    - port: 80          # The public exposing port
+      targetPort: 8080  # The port on the pod which the load-balancer forwards traffic to
+  type: LoadBalancer
