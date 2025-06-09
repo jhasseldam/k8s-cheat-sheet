@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quote-service
+  namespace: development
+  labels:
+    app: quote-service
+spec:
+  replicas: 2                       # Always ensure that two instances of this app is running
+  selector: 
+    matchLabels:
+      app: quote-service
+  template:
+    metadata:
+      labels:
+        app: quote-service
+    spec:
+      containers:
+      - name: quote-service
+        image: datawire/quote:0.5.0 # An Api which serves a random quote called
+        ports:
+        - containerPort: 8080
+        securityContext: 
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFileSystem: true
